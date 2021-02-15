@@ -1,0 +1,47 @@
+version: '3'
+services:
+  c3nav:
+    image: bucherfa/c3nav:latest
+    restart: unless-stopped
+    #ports:
+    #  - 8000:8000
+    volumes:
+      - ../src/data/hwr_v2:/home/c3nav/c3nav/src/data
+      # config to override defaults and values from /home/c3nav/.c3nav.cfg
+      - ./example.c3nav.cfg:/home/c3nav/c3nav/src/c3nav.cfg
+      - static:/home/c3nav/static
+    depends_on:
+      - db
+      - cache
+      - celery-broker
+      - celery-backend
+  db:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=c3nav
+      - POSTGRES_DB=c3nav
+    volumes:
+      - db:/var/lib/postgresql/data
+  web:
+    image: nginx:1
+    ports:
+      - 8080:80
+    volumes:
+      - static:/c3nav/static:ro
+      - ./nginx.conf:/etc/nginx/conf.d/c3nav.conf
+    depends_on:
+      - c3nav
+  cache:
+    image: redis:6
+    restart: unless-stopped
+  celery-broker:
+    image: redis:6
+    restart: unless-stopped
+  celery-backend:
+    image: redis:6
+    restart: unless-stopped
+volumes:
+  db:
+  static:
