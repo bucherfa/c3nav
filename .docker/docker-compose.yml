@@ -6,7 +6,7 @@ services:
     #ports:
     #  - 8000:8000
     volumes:
-      - ../src/data/hwr_v2:/home/c3nav/c3nav/src/data
+      - data:/home/c3nav/data
       # config to override defaults and values from /home/c3nav/.c3nav.cfg
       - ./example.c3nav.cfg:/home/c3nav/c3nav/src/c3nav.cfg
       - static:/home/c3nav/static
@@ -45,3 +45,4 @@ services:
 volumes:
   db:
   static:
+  data:

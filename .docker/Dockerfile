@@ -35,6 +35,7 @@ USER c3nav
 RUN cd /home/c3nav \
   # directory to share static files with web server container
   && mkdir static \
+  && mkdir data \
   && git clone https://github.com/c3nav/c3nav.git \
   && cd c3nav \
   && virtualenv -p python3.7 env \
