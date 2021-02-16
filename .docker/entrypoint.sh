@@ -4,8 +4,6 @@ cd /home/c3nav/c3nav
 . env/bin/activate
 cd src
 
-python --version
-
 if [ -z "$1" ]
   then
     python manage.py collectstatic --noinput
@@ -14,5 +12,5 @@ if [ -z "$1" ]
     cp -r /home/c3nav/c3nav/src/c3nav/static.dist/* /home/c3nav/static/
     gunicorn --bind=0.0.0.0 c3nav.wsgi
 else
-  python manage.py $1
+  python manage.py $@
 fi
