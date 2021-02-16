@@ -12,9 +12,7 @@ services:
       - static:/home/c3nav/static
     depends_on:
       - db
-      - cache
-      - celery-broker
-      - celery-backend
+      - redis
   db:
     image: postgres:13
     restart: unless-stopped
@@ -33,13 +31,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/c3nav.conf
     depends_on:
       - c3nav
-  cache:
-    image: redis:6
-    restart: unless-stopped
-  celery-broker:
-    image: redis:6
-    restart: unless-stopped
-  celery-backend:
+  redis:
     image: redis:6
     restart: unless-stopped
 volumes:
